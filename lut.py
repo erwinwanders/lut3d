@@ -6,8 +6,8 @@ import time
 
 def mainLoop():
     start = time.time()
-    
-    pingTel()
+    concLut = calcLut(inputFile)
+    sendLut(concLut)
     
     end = time.time()
     print(end - start)
@@ -29,23 +29,22 @@ def loadFile():
 
 
 
-def pingTel():
+def sendLut(lutInpObj):
     HOST = "192.168.10.150"
     PORT = "9995"
     
-    print("start")
     telnetObj=telnetlib.Telnet(HOST,PORT,timeout=2)
   
     print("Send LUT")
 
     #end = "LUT 0:\nLut Kind: 3Dx33x10b\nLut Name: superAwesome"
 
-    lutobj = f"{loadFile()}\n\n"
+    #lutobj = f"{loadFile()}\n\n"
+    lutobj = f"{lutInpObj}\n\n"
     lutobj = bytes(lutobj.encode())
     print(type(lutobj)) 
     telnetObj.write(lutobj)
     telnetObj.read_until(b"ACK")
-   
  
     telnetObj.close()
 
