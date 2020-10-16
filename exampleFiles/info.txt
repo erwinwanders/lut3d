@@ -1,0 +1,9 @@
+Alle getallen beginnen bij
+LUT_3D_SIZE 33 en dan een enter de rest heeft die niet nodig
+De naam mag hij gebruiken van de bestands naam.
+
+In de lut voorbeeld map zie je een paar voorbeelden staan van lutjes
+
+LUT DATA 1: of LUT DATA 0:
+Geeft de bank aan waar hij in geplaatst moet worden
+Na de getallenreeks eindigen met enter 2x
