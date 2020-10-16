@@ -44,8 +44,9 @@ def pingTel():
     lutobj = bytes(lutobj.encode())
     print(type(lutobj)) 
     telnetObj.write(lutobj)
+    telnetObj.read_until(b"ACK")
    
-    telnetObj.interact()    
+ 
     telnetObj.close()
 
 if __name__ == "__main__":
