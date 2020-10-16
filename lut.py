@@ -12,7 +12,7 @@ def mainLoop():
     end = time.time()
     print(end - start)
 
-def calcLut(inputFile,outputFile):
+def calcLut(inputFile):
 
     import pandas as pd
     import numpy as np
@@ -20,8 +20,8 @@ def calcLut(inputFile,outputFile):
     df = pd.read_csv(inputFile,delim_whitespace=True,header=0,names=['r','g','b'],skiprows=2)
     df = df.apply(lambda x: np.floor(1023 * x))
     df = df.astype('Int64')
-    df.to_csv (outputFile, index = False,sep=' ' ,header=False)
-    return messagebox.showwarning("Status","File converted")
+    outputFile = df.to_csv (index = False,sep=' ' ,header=False)
+    return outputFile
 
 def loadFile():
         f = open("lut1.cube","r")
