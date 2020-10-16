@@ -12,13 +12,25 @@ def mainLoop():
     end = time.time()
     print(end - start)
 
+def calcLut(inputFile,outputFile):
+
+    import pandas as pd
+    import numpy as np
+    
+    df = pd.read_csv(inputFile,delim_whitespace=True,header=0,names=['r','g','b'],skiprows=2)
+    df = df.apply(lambda x: np.floor(1023 * x))
+    df = df.astype('Int64')
+    df.to_csv (outputFile, index = False,sep=' ' ,header=False)
+    return messagebox.showwarning("Status","File converted")
+
 def loadFile():
         f = open("lut1.cube","r")
         return f.read()
 
+
+
 def pingTel():
     HOST = "192.168.10.150"
-    #HOST = "towel.blinkenlights.nl"
     PORT = "9995"
     
     print("start")
