@@ -37,7 +37,7 @@ def sendLut(lutInpObj):
 
     end = "LUT 0:\nLut Kind: 3Dx33x10b\nLut Name: superAwesome\n"
     
-    lutobj = f"{lutInpObj}{end}\n\n"
+    lutobj = f"{lutInpObj}\n\n{end}\n\n"
     lutobj = bytes(lutobj.encode())
     print(type(lutobj)) 
     telnetObj.write(lutobj)
