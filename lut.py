@@ -38,14 +38,23 @@ def calcLut(inputFile: str) -> str:
     return outputFile
 
 
-def sendLut(lutInpObj):
-    HOST = "192.168.10.150"
-    PORT = "9995"
+def sendLut(lutInpObj:str) -> str:
+    """Open telnet session and send LUT object
+
+    Args:
+        lutInpObj (str): calculated LUT object
+
+    Returns:
+        str: message if session is closed
+    """
+    HOST = "192.168.10.150" #TODO: refactor to dynamic input
+    PORT = "9995" #TODO: refactor to dynamic input
     
     telnetObj=telnetlib.Telnet(HOST,PORT,timeout=2)
   
     print("Send LUT")
 
+    #TODO: Extract metadata from input file
     end = "LUT 0:\nLut Kind: 3Dx33x10b\nLut Name: superAwesome\n"
     
     lutobj = f"{lutInpObj}\n\n{end}\n\n"
@@ -54,6 +63,7 @@ def sendLut(lutInpObj):
     telnetObj.write(lutobj)
     telnetObj.read_until(b"ACK")
     telnetObj.close()
+    return "Session closed"
 
 
 def mainLoop():
