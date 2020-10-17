@@ -1,15 +1,20 @@
-import tkinter as tk
-import pandas as pd
-import numpy as np
-import sys
-from tkinter import messagebox 
-import telnetlib
+#Global imports
 import time
 import os
-import datetime
+import telnetlib
+import pandas as pd
+import numpy as np
 
 
-def getFileDT(inputFile):
+def getFileDT(inputFile:str) -> float:
+    """Get latest filedate and time
+
+    Args:
+        inputFile (str): input file path and name
+
+    Returns:
+        float: system datetime
+    """
     try:
         mtime = os.path.getmtime(inputFile)
     except OSError:
@@ -17,17 +22,20 @@ def getFileDT(inputFile):
     return mtime
 
 
+def calcLut(inputFile: str) -> str:
+    """Convert input LUT file to required output format
 
-def calcLut(inputFile):
+    Args:
+        inputFile (str): Filepath and name to input LUT file
+
+    Returns:
+        str: calculated string object whitespace-seperated
+    """
     df = pd.read_csv(inputFile,delim_whitespace=True,header=0,names=['r','g','b'],skiprows=2)
     df = df.apply(lambda x: np.floor(1023 * x))
     df = df.astype('Int64')
     outputFile = df.to_csv (index = False,sep=' ' ,header=False)
     return outputFile
-
-#def loadFile():
-#        f = open("lut1.cube","r")
-#        return f.read()
 
 
 def sendLut(lutInpObj):
@@ -46,6 +54,7 @@ def sendLut(lutInpObj):
     telnetObj.write(lutobj)
     telnetObj.read_until(b"ACK")
     telnetObj.close()
+
 
 def mainLoop():
     start = time.time()
