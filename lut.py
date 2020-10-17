@@ -5,15 +5,18 @@ import sys
 from tkinter import messagebox 
 import telnetlib
 import time
+import os
+import datetime
 
-def mainLoop():
-    start = time.time()
-    inputFile = '' #Path to cube file
-    concLut = calcLut(inputFile)
-    sendLut(concLut)
-    
-    end = time.time()
-    print(end - start)
+
+def getFileDT(inputFile):
+    try:
+        mtime = os.path.getmtime(inputFile)
+    except OSError:
+        mtime = 0
+    return mtime
+
+
 
 def calcLut(inputFile):
     df = pd.read_csv(inputFile,delim_whitespace=True,header=0,names=['r','g','b'],skiprows=2)
@@ -43,6 +46,26 @@ def sendLut(lutInpObj):
     telnetObj.write(lutobj)
     telnetObj.read_until(b"ACK")
     telnetObj.close()
+
+def mainLoop():
+    start = time.time()
+    inputFile = '' #Path to cube file
+    
+    baseFileDT = getFileDT(inputFile)
+    
+    while(not time.sleep(5)):
+        checkFileDT = getFileDT(inputFile)
+        if checkFileDT > baseFileDT:
+            print("New File Found")
+            baseFileDT = checkFileDT
+        else:
+            time.sleep(2)
+    
+    concLut = calcLut(inputFile)
+    sendLut(concLut)
+    
+    end = time.time()
+    print(end - start)
 
 if __name__ == "__main__":
 	mainLoop()
