@@ -67,7 +67,7 @@ def sendLut(lutInpObj:str) -> str:
 
 
 def mainLoop():
-    start = time.time()
+    
     inputFile = '' #Path to cube file
     
     baseFileDT = getFileDT(inputFile)
@@ -75,16 +75,17 @@ def mainLoop():
     while(not time.sleep(5)):
         checkFileDT = getFileDT(inputFile)
         if checkFileDT > baseFileDT:
+            start = time.time()
             print("New File Found")
+            concLut = calcLut(inputFile)
+            sendLut(concLut)
             baseFileDT = checkFileDT
+            end = time.time()
+            print(f"Lut successfully loaded in {round(end - start)} seconds")
         else:
             time.sleep(2)
     
-    concLut = calcLut(inputFile)
-    sendLut(concLut)
-    
-    end = time.time()
-    print(end - start)
+  
 
 if __name__ == "__main__":
 	mainLoop()
