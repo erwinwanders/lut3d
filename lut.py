@@ -47,23 +47,30 @@ def sendLut(lutInpObj:str) -> str:
     Returns:
         str: message if session is closed
     """
-    HOST = "192.168.10.150" #TODO: refactor to dynamic input
-    PORT = "9995" #TODO: refactor to dynamic input
+    #HOST = "192.168.10.150" #TODO: refactor to dynamic input
+    #PORT = "9995" #TODO: refactor to dynamic input
     
-    telnetObj=telnetlib.Telnet(HOST,PORT,timeout=2)
+    #telnetObj=telnetlib.Telnet(HOST,PORT,timeout=2)
   
-    print("Send LUT")
+    #print("Send LUT")
 
     #TODO: Extract metadata from input file
     start = "LUT DATA 0:"
     end = "LUT 0:\nLut Kind: 3Dx33x10b\nLut Name: superAwesome\n"
     
     lutobj = f"{start}\n{lutInpObj}\n\n{end}\n\n"
+    
+    f = open("/Users/erwinwanders/Documents/Persoonlijk/LUT/lut3d/test.txt", "w")
+    f.write(lutobj)
+    f.close()
+    
+    
+    
     lutobj = bytes(lutobj.encode())
     print(type(lutobj)) 
-    telnetObj.write(lutobj)
-    telnetObj.read_until(b"ACK")
-    telnetObj.close()
+    #telnetObj.write(lutobj)
+    #telnetObj.read_until(b"ACK")
+    #telnetObj.close()
     return "Session closed"
 
 
@@ -81,7 +88,7 @@ def mainLoop():
             print("New File Found")
             concLut = calcLut(inputFile)
             print(concLut)
-            #sendLut(concLut)
+            sendLut(concLut)
             baseFileDT = checkFileDT
             end = time.time()
             print(f"Lut successfully loaded in {round(end - start)} seconds")
