@@ -7,7 +7,7 @@ Usage:
 
 from setuptools import setup
 
-APP = ['lut.py']
+APP = ['dear.py']
 DATA_FILES = []
 OPTIONS = {'argv_emulation': True,
 'site_packages': True,

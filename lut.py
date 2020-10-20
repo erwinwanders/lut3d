@@ -67,23 +67,26 @@ def sendLut(lutInpObj:str) -> str:
 
 
 def mainLoop():
-    
-    inputFile = '' #Path to cube file
+    print("Welcome to LUT Convert and Send")
+    inputFile = '/Users/erwinwanders/Documents/Persoonlijk/LUT/lut3d/testfile/test.cube' #Path to cube file
     
     baseFileDT = getFileDT(inputFile)
     
-    while(not time.sleep(5)):
+    while(not time.sleep(2)):
+        print("Looking around")
         checkFileDT = getFileDT(inputFile)
         if checkFileDT > baseFileDT:
             start = time.time()
             print("New File Found")
             concLut = calcLut(inputFile)
-            sendLut(concLut)
+            print(concLut)
+            #sendLut(concLut)
             baseFileDT = checkFileDT
             end = time.time()
             print(f"Lut successfully loaded in {round(end - start)} seconds")
         else:
-            time.sleep(2)
+            print("No new file found")
+   
     
   
 
