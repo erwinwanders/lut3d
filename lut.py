@@ -47,30 +47,25 @@ def sendLut(lutInpObj:str) -> str:
     Returns:
         str: message if session is closed
     """
-    #HOST = "192.168.10.150" #TODO: refactor to dynamic input
-    #PORT = "9995" #TODO: refactor to dynamic input
+    HOST = "192.168.10.150" #TODO: refactor to dynamic input
+    PORT = "9995" #TODO: refactor to dynamic input
     
-    #telnetObj=telnetlib.Telnet(HOST,PORT,timeout=2)
-  
-    #print("Send LUT")
+    print("Setup connection")
+    telnetObj=telnetlib.Telnet(HOST,PORT,timeout=2)
+    telnetObj.read_until(b"END PRELUDE:")
+    
 
     #TODO: Extract metadata from input file
     start = "LUT DATA 0:"
     end = "LUT 0:\nLut Kind: 3Dx33x10b\nLut Name: superAwesome\n"
     
     lutobj = f"{start}\n{lutInpObj}\n\n{end}\n\n"
-    
-    f = open("/Users/erwinwanders/Documents/Persoonlijk/LUT/lut3d/test.txt", "w")
-    f.write(lutobj)
-    f.close()
-    
-    
-    
+  
     lutobj = bytes(lutobj.encode())
     print(type(lutobj)) 
-    #telnetObj.write(lutobj)
-    #telnetObj.read_until(b"ACK")
-    #telnetObj.close()
+    telnetObj.write(lutobj)
+    telnetObj.read_until(b"ACK")
+    telnetObj.close()
     return "Session closed"
 
 
@@ -95,24 +90,8 @@ def mainLoop():
         else:
             print("No new file found")
    
-    
-  
 
 if __name__ == "__main__":
 	mainLoop()
     
     
-    
-from dearpygui.core import *
-from dearpygui.simple import *
-
-with window("Tutorial"):
-    add_button("Apply")
-    add_same_line(spacing=10)
-    add_button("Apply##1")
-    add_same_line(spacing=10, name="sameline1")
-    add_button("Apply2", label="Apply")
-    add_spacing(count=5, name="spacing1")
-    add_button("Apply##3")
-
-start_dearpygui() 
